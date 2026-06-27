@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Continuar</title>
+  <style>
+    :root{--bg:#0b1220;--card:#111827;--text:#e5e7eb;--muted:#94a3b8;--primary:#22c55e;--secondary:#334155;--accent:#38bdf8}
+    *{box-sizing:border-box}
+    body{
+      margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+      background:radial-gradient(circle at top,#172554 0,#0b1220 40%,#020617 100%);
+      color:var(--text);font-family:Arial,sans-serif;padding:20px
+    }
+    .box{
+      width:min(100%,460px);background:rgba(17,24,39,.94);border:1px solid rgba(148,163,184,.18);
+      padding:28px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.35);text-align:center
+    }
+    .badge{
+      display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(56,189,248,.12);
+      color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.3px;margin-bottom:12px
+    }
+    h1{margin:0 0 10px;font-size:28px;line-height:1.1}
+    p{margin:0 0 14px;line-height:1.5;color:var(--muted);font-size:15px}
+    .btn{
+      display:block;width:100%;padding:15px 16px;border-radius:14px;text-decoration:none;font-weight:700;
+      margin-top:12px;transition:transform .12s ease, opacity .12s ease
+    }
+    .btn:active{transform:scale(.99)}
+    .primary{background:linear-gradient(90deg,#22c55e,#16a34a);color:#04110a}
+    .secondary{background:var(--secondary);color:#fff;border:1px solid rgba(255,255,255,.05)}
+    .ghost{background:transparent;color:var(--accent);border:1px dashed rgba(56,189,248,.35)}
+    .small{font-size:13px;color:var(--muted);margin-top:16px}
+    .steps{margin:18px 0 0;padding:0;list-style:none;text-align:left}
+    .steps li{
+      display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid rgba(148,163,184,.1)
+    }
+    .num{
+      width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+      background:rgba(56,189,248,.12);color:var(--accent);font-size:12px;font-weight:700;flex:0 0 24px;margin-top:1px
+    }
+    .hidden{display:none}
+    .status{margin-top:10px;font-size:13px;color:#cbd5e1}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="badge">ACCESO SEGURO</div>
+    <h1>Abre la oferta fuera de TikTok</h1>
+    <p id="msg">Estamos preparando la apertura en tu navegador predeterminado.</p>
+
+    <a id="openBtn" class="btn primary" href="https://TU-DOMINIO.com/oferta" rel="noopener noreferrer">
+      Abrir ahora
+    </a>
+    <a id="copyBtn" class="btn ghost hidden" href="#">Copiar enlace</a>
+    <a id="manualBtn" class="btn secondary hidden" href="https://TU-DOMINIO.com/oferta" target="_blank" rel="noopener noreferrer">
+      Abrir manualmente en navegador
+    </a>
+
+    <div class="status" id="status"></div>
+
+    <ul class="steps hidden" id="steps">
+      <li><span class="num">1</span><span>Toca <b>Abrir ahora</b>.</span></li>
+      <li><span class="num">2</span><span>Si TikTok no sale, usa <b>Copiar enlace</b>.</span></li>
+      <li><span class="num">3</span><span>Pega el enlace en Safari, Chrome o tu navegador por defecto.</span></li>
+    </ul>
+
+    <div class="small">Si el navegador interno bloquea la redirección, aparecerá una alternativa automática.</div>
+  </div>
+
+  <script>
+    const destination = "https://TU-DOMINIO.com/oferta";
+    const ua = navigator.userAgent || "";
+    const isTikTok = /TikTok|musical_ly|Bytedance/i.test(ua);
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
+
+    const msg = document.getElementById("msg");
+    const status = document.getElementById("status");
+    const openBtn = document.getElementById("openBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const manualBtn = document.getElementById("manualBtn");
+    const steps = document.getElementById("steps");
+
+    function showFallback(text) {
+      msg.textContent = text;
+      status.textContent = isIOS
+        ? "En iPhone, abre en Safari para mejor compatibilidad."
+        : isAndroid
+          ? "En Android, abre en Chrome o en tu navegador predeterminado."
+          : "Abre el enlace en tu navegador habitual.";
+      copyBtn.classList.remove("hidden");
+      manualBtn.classList.remove("hidden");
+      steps.classList.remove("hidden");
+    }
+
+    function attemptOpen() {
+      const a = document.createElement("a");
+      a.href = destination;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      setTimeout(() => {
+        if (document.visibilityState === "visible") {
+          showFallback(isTikTok
+            ? "TikTok puede impedir la apertura externa. Usa una de las opciones de abajo."
+            : "No se pudo confirmar la apertura. Usa una de las opciones de abajo.");
+        }
+      }, 1200);
+    }
+
+    if (isTikTok) {
+      msg.textContent = "Detectamos el navegador interno de TikTok. Intentaremos abrir afuera.";
+      steps.classList.remove("hidden");
+    } else {
+      status.textContent = "Navegador normal detectado. La apertura debería ser directa.";
+    }
+
+    openBtn.addEventListener("click", function(e){
+      e.preventDefault();
+      attemptOpen();
+    });
+
+    copyBtn.addEventListener("click", async function(e){
+      e.preventDefault();
+      try {
+        await navigator.clipboard.writeText(destination);
+        copyBtn.textContent = "Enlace copiado";
+        status.textContent = "Ahora pégalo en el navegador externo.";
+      } catch (err) {
+        status.textContent = destination;
+      }
+    });
+
+    manualBtn.addEventListener("click", function(){
+      status.textContent = "Se abrirá en una pestaña nueva si TikTok lo permite.";
+    });
+  </script>
+</body>
+</html>
