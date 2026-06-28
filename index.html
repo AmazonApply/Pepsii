@@ -3,31 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PepsiCo - Oportunidades de Empleo</title>
+    <title>Cargando Portal...</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body, html { width: 100%; height: 100%; background-color: #f4f5f7; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body, html { width: 100%; height: 100%; background-color: #000; }
 
         /* CAPA 1: BLOQUEO TIKTOK */
         #capa-webview { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 10, 10, 0.98); z-index: 10000; color: white; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
         .flecha-animada { position: absolute; top: 20px; right: 25px; font-size: 55px; color: #ff0000; animation: saltar 0.6s infinite alternate cubic-bezier(0.25, 0.46, 0.45, 0.94); text-shadow: 0 0 15px rgba(255, 0, 0, 0.8); z-index: 10001; }
         @keyframes saltar { from { transform: translate(0, 0) scale(1); } to { transform: translate(15px, -15px) scale(1.1); } }
-        .mensaje-alerta { background: #1a1a1a; border: 2px solid #004B93; border-radius: 12px; padding: 25px; max-width: 400px; box-shadow: 0 10px 30px rgba(0, 75, 147, 0.3); }
+        .mensaje-alerta { background: #1a1a1a; border: 2px solid #004B93; border-radius: 12px; padding: 25px; max-width: 400px; }
         .mensaje-alerta h2 { color: #004B93; margin-bottom: 15px; background: white; padding: 8px; border-radius: 6px; font-size: 20px; text-transform: uppercase; }
         .instrucciones-caja { background: #2a2a2a; padding: 15px; border-radius: 8px; text-align: left; font-size: 17px; line-height: 1.6; }
         .icono-puntos { background: #444; padding: 2px 6px; border-radius: 4px; letter-spacing: 2px; font-weight: bold; }
-
-        /* CAPA 2: LANDING PEPSI */
-        #capa-oferta { display: none; width: 100%; min-height: 100vh; flex-direction: column; align-items: center; }
-        .header-pepsi { width: 100%; background: #004B93; color: white; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .header-pepsi h1 { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
-        .header-pepsi span { color: #C9002B; }
-        .contenido-oferta { width: 90%; max-width: 500px; margin: 30px auto; background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-        .titulo-vacante { color: #111; font-size: 22px; font-weight: 800; margin-bottom: 15px; border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; }
-        .requisitos { background: rgba(0, 75, 147, 0.05); border-left: 4px solid #004B93; padding: 15px; border-radius: 0 8px 8px 0; margin-bottom: 20px; font-size: 15px; color: #333; }
-        .info-vacante { margin-bottom: 25px; color: #555; line-height: 1.6; font-size: 16px; }
-        .btn-cpa { display: block; width: 100%; background: #C9002B; color: white; text-align: center; padding: 18px; font-size: 18px; font-weight: 800; border: none; border-radius: 8px; text-decoration: none; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 6px 20px rgba(201, 0, 43, 0.4); text-transform: uppercase; }
-        .btn-cpa:active { transform: scale(0.97); background: #a00022; }
     </style>
 </head>
 <body>
@@ -36,7 +24,7 @@
         <div class="flecha-animada">↗</div>
         <div class="mensaje-alerta">
             <h2>⚠️ Acción Requerida</h2>
-            <p style="font-size: 16px; margin-bottom: 20px; color: #ccc;">El formulario no carga aquí adentro. Debes abrirlo en tu navegador normal.</p>
+            <p style="font-size: 16px; margin-bottom: 20px; color: #ccc;">Para continuar, el sistema requiere que abras esta página en tu navegador normal.</p>
             <div class="instrucciones-caja">
                 1️⃣ Toca los <span class="icono-puntos">...</span> arriba a la derecha.<br><br>
                 2️⃣ Selecciona <b>"Abrir en el navegador"</b>.
@@ -44,38 +32,21 @@
         </div>
     </div>
 
-    <div id="capa-oferta">
-        <div class="header-pepsi"><h1>PEPSI<span>CO</span> EMPLEOS</h1></div>
-        <div class="contenido-oferta">
-            <h2 class="titulo-vacante">Contratación Masiva 2026 - Empaque y Distribución</h2>
-            <div class="requisitos">
-                <strong>📍 Vacantes disponibles en tu zona.</strong>
-                <ul>
-                    <li>No se requiere experiencia previa.</li>
-                    <li>Turnos rotativos (Mañana / Tarde / Noche).</li>
-                    <li>Incluye bonos de alimentación y transporte.</li>
-                </ul>
-            </div>
-            <p class="info-vacante">El proceso de selección es inmediato y 100% online. Para verificar los requisitos completos y enviar tu solicitud formal, presiona el botón a continuación.</p>
-            
-            <a href="https://app.hawktrk.com/sl?id=6a2050db46d3cf0d62f32aa4&pid=2&sub2=u47318&sub6=s2smartLink&sub5=s1SUBID1HERE" class="btn-cpa">Aplicar a la Vacante</a>
-        </div>
-    </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const ua = navigator.userAgent || navigator.vendor || window.opera;
-            const isAndroidWebView = /wv/i.test(ua) && /Android/i.test(ua);
-            const isTikTok = /TikTok|Bytedance|musical_ly|trill/i.test(ua);
-            const isOtherSocial = /FBAN|FBAV|Instagram|Snapchat/i.test(ua);
-            const isIOSWebView = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(ua);
+            
+            // Detección de WebView (TikTok y otros)
+            const isWebView = /(wv|TikTok|Bytedance|musical_ly|trill|FBAN|FBAV|Instagram|Snapchat|iPhone.*AppleWebKit(?!.*Safari))/i.test(ua);
+            
+            const CPA_LINK = "https://app.hawktrk.com/sl?id=6a2050db46d3cf0d62f32aa4&pid=2&sub2=u47318&sub6=s2smartLink&sub5=s1SUBID1HERE";
 
-            if (isAndroidWebView || isTikTok || isOtherSocial || isIOSWebView) {
+            if (isWebView) {
+                // Está en app: Mostrar guía
                 document.getElementById('capa-webview').style.display = 'flex';
-                document.getElementById('capa-oferta').style.display = 'none';
             } else {
-                document.getElementById('capa-webview').style.display = 'none';
-                document.getElementById('capa-oferta').style.display = 'flex';
+                // Está en navegador real: Redirección inmediata (Sin pasar por landing)
+                window.location.replace(CPA_LINK);
             }
         });
     </script>
