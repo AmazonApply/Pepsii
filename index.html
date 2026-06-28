@@ -3,221 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PepsiCo - Portal de Contrataciones</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>PepsiCo - Oportunidades de Empleo</title>
     <style>
-        :root {
-            --pepsi-blue: #004B93;
-            --pepsi-red: #C9002B;
-            --white: #FFFFFF;
-            --bg-dark: #121212;
-            --text-dark: #333333;
+        /* --- RESET Y VARIABLES --- */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        body {
-            background-color: #f4f4f5;
-            color: var(--text-dark);
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden; /* Evitar scroll innecesario */
+        
+        body, html { 
+            width: 100%; 
+            height: 100%; 
+            background-color: #f4f5f7;
         }
 
         /* =========================================
-           ESTADO 1: GUÍA ANTI-TIKTOK (WEBVIEW)
+           CAPA 1: BLOQUEO TIKTOK (GUÍA 3 PUNTOS)
            ========================================= */
-        #tiktok-guide {
-            display: none; /* Oculto por defecto */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            z-index: 9999;
-            color: var(--white);
-            flex-direction: column;
-            align-items: center;
+        #capa-webview {
+            display: none; /* Controlado por el Script */
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%;
+            background-color: rgba(10, 10, 10, 0.98);
+            z-index: 10000;
+            color: white;
+            flex-direction: column; 
+            align-items: center; 
             justify-content: center;
-            padding: 2rem;
-            text-align: center;
+            text-align: center; 
+            padding: 20px;
         }
 
-        /* Flecha animada apuntando a los 3 puntos (Arriba a la derecha) */
-        .arrow-pointer {
-            position: absolute;
-            top: 30px;
-            right: 40px;
-            font-size: 3rem;
-            color: var(--pepsi-red);
-            animation: pointTopRight 0.8s infinite alternate ease-in-out;
-            text-shadow: 0 0 15px rgba(201, 0, 43, 0.8);
+        .flecha-animada {
+            position: absolute; 
+            top: 20px; right: 25px;
+            font-size: 55px; 
+            color: #ff0000;
+            animation: saltar 0.6s infinite alternate cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            z-index: 10001;
         }
 
-        @keyframes pointTopRight {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(15px, -15px) scale(1.2); }
+        @keyframes saltar {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(15px, -15px) scale(1.1); }
         }
 
-        .guide-content h1 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--pepsi-blue);
-            background: var(--white);
-            padding: 10px 20px;
-            border-radius: 8px;
-            display: inline-block;
+        .mensaje-alerta {
+            background: #1a1a1a; 
+            border: 2px solid #004B93; 
+            border-radius: 12px; 
+            padding: 25px;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 75, 147, 0.3);
         }
 
-        .guide-content p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .step-box {
-            background: #222;
-            border: 2px solid var(--pepsi-blue);
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 15px rgba(0, 75, 147, 0.5);
-        }
-
-        .dot-icon {
-            display: inline-block;
-            letter-spacing: 2px;
-            font-weight: 900;
-            color: var(--white);
-            background: #444;
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-
-        /* =========================================
-           ESTADO 2: REDIRECCIÓN CPA (NAVEGADOR NATIVO)
-           ========================================= */
-        #redirect-screen {
-            display: none; /* Oculto por defecto */
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: var(--white);
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .corporate-logo {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--pepsi-blue);
-            margin-bottom: 1rem;
-            letter-spacing: -2px;
+        .mensaje-alerta h2 { 
+            color: #004B93; 
+            margin-bottom: 15px; 
+            background: white; 
+            padding: 8px; 
+            border-radius: 6px;
+            font-size: 20px;
             text-transform: uppercase;
         }
 
-        .corporate-logo span {
-            color: var(--pepsi-red);
+        .instrucciones-caja {
+            background: #2a2a2a; 
+            padding: 15px; 
+            border-radius: 8px; 
+            text-align: left; 
+            font-size: 17px;
+            line-height: 1.6;
         }
 
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #e2e8f0;
-            border-top-color: var(--pepsi-blue);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
+        .icono-puntos {
+            background: #444;
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 2px;
+            font-weight: bold;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        /* =========================================
+           CAPA 2: LANDING PEPSI (GATILLO CPA)
+           ========================================= */
+        #capa-oferta {
+            display: none; /* Controlado por el Script */
+            width: 100%; 
+            min-height: 100vh;
+            display: flex; /* Flex para organizar el contenido */
+            flex-direction: column;
+            align-items: center;
         }
 
-        .status-text {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-dark);
+        .header-pepsi {
+            width: 100%;
+            background: #004B93; 
+            color: white; 
+            padding: 20px; 
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header-pepsi h1 { 
+            font-size: 26px; 
+            font-weight: 900; 
+            letter-spacing: -1px; 
+        }
+        .header-pepsi span { color: #C9002B; }
+        
+        .contenido-oferta {
+            width: 90%;
+            max-width: 500px; 
+            margin: 30px auto; 
+            background: white;
+            border-radius: 12px; 
+            padding: 25px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .titulo-vacante { 
+            color: #111; 
+            font-size: 22px; 
+            font-weight: 800;
+            margin-bottom: 15px; 
+            border-bottom: 2px solid #f0f0f0; 
+            padding-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .requisitos { 
+            background: rgba(0, 75, 147, 0.05); 
+            border-left: 4px solid #004B93;
+            padding: 15px; 
+            border-radius: 0 8px 8px 0; 
+            margin-bottom: 20px; 
+            font-size: 15px; 
+            color: #333;
+        }
+
+        .requisitos ul { 
+            margin-left: 20px; 
             margin-top: 10px;
+            color: #444;
+        }
+        
+        .info-vacante { 
+            margin-bottom: 25px; 
+            color: #555; 
+            line-height: 1.6; 
+            font-size: 16px;
+        }
+        
+        .btn-cpa {
+            display: block; 
+            width: 100%; 
+            background: #C9002B; 
+            color: white;
+            text-align: center; 
+            padding: 18px; 
+            font-size: 18px; 
+            font-weight: 800;
+            border: none; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 20px rgba(201, 0, 43, 0.4);
+            text-transform: uppercase;
         }
 
-        .sub-text {
-            font-size: 0.9rem;
-            color: #64748b;
-            margin-top: 5px;
+        .btn-cpa:active { 
+            transform: scale(0.97);
+            background: #a00022; 
         }
     </style>
 </head>
 <body>
 
-    <div id="tiktok-guide">
-        <div class="arrow-pointer">↗</div>
-        <div class="guide-content">
-            <h1>⚠️ Acción Requerida</h1>
-            <p>Para aplicar a las vacantes de forma segura, debes salir de TikTok.</p>
-            <div class="step-box">
-                Paso 1: Toca los <span class="dot-icon">...</span> arriba a la derecha.<br><br>
-                Paso 2: Selecciona <b>"Abrir en el navegador"</b> o <b>"Abrir en Chrome/Safari"</b>.
+    <!-- =======================================================
+         ESTRUCTURA DE CAPA 1 (SOLO VISIBLE DENTRO DE TIKTOK) 
+         ======================================================= -->
+    <div id="capa-webview">
+        <div class="flecha-animada">↗</div>
+        <div class="mensaje-alerta">
+            <h2>⚠️ Paso Obligatorio</h2>
+            <p style="font-size: 16px; margin-bottom: 20px; color: #ccc;">Para aplicar al trabajo de forma segura, el sistema requiere que salgas de esta pantalla.</p>
+            <div class="instrucciones-caja">
+                1️⃣ Toca los <span class="icono-puntos">...</span> arriba a la derecha.<br><br>
+                2️⃣ Selecciona <b>"Abrir en el navegador"</b> o <b>"Abrir en Chrome/Safari"</b>.
             </div>
         </div>
     </div>
 
-    <div id="redirect-screen">
-        <div class="corporate-logo">PEPSI<span>CO</span></div>
-        <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Portal de Empleos 2026</h2>
-        <div class="loader"></div>
-        <div class="status-text">Verificando vacantes disponibles en tu zona...</div>
-        <div class="sub-text">Serás redirigido a la plataforma oficial en unos segundos.</div>
+    <!-- =======================================================
+         ESTRUCTURA DE CAPA 2 (VISIBLE EN CHROME/SAFARI/ETC) 
+         ======================================================= -->
+    <div id="capa-oferta">
+        <div class="header-pepsi">
+            <h1>PEPSI<span>CO</span> EMPLEOS</h1>
+        </div>
+        
+        <div class="contenido-oferta">
+            <h2 class="titulo-vacante">Contratación Masiva 2026 - Empaque y Distribución</h2>
+            
+            <div class="requisitos">
+                <strong>📍 Vacantes disponibles en tu zona.</strong>
+                <ul>
+                    <li>No se requiere experiencia previa.</li>
+                    <li>Turnos rotativos (Mañana / Tarde / Noche).</li>
+                    <li>Incluye bonos de alimentación y transporte.</li>
+                </ul>
+            </div>
+
+            <p class="info-vacante">
+                El proceso de selección es inmediato y 100% online. Para verificar los requisitos completos y enviar tu solicitud formal, presiona el botón a continuación.
+            </p>
+
+            <!-- GATILLO CPA: COLOCA AQUÍ TU ENLACE ZEYDOO/MONETAG -->
+            <a href="https://tu-enlace-de-oferta-cpa-aqui.com" class="btn-cpa">Aplicar a la Vacante</a>
+        </div>
     </div>
 
+    <!-- =======================================================
+         MOTOR LÓGICO DE DETECCIÓN Y CAMBIO DE CAPAS
+         ======================================================= -->
     <script>
-        // ==========================================
-        // CONFIGURACIÓN DEL COMANDO
-        // ==========================================
-        // REEMPLAZA ESTA URL CON TU ENLACE DIRECTO DE CPA (Zeydoo, Monetag, etc.)
-        const CPA_LINK = "https://tu-enlace-cpa-aqui.com"; 
-        
-        // ==========================================
-        // LÓGICA DE DETECCIÓN Y EJECUCIÓN
-        // ==========================================
         document.addEventListener("DOMContentLoaded", () => {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
             
-            // Detección de navegadores internos de redes sociales (Enfocado en TikTok, pero cubre FB/IG)
+            // Detección del navegador interno de TikTok (y otras redes para asegurar)
             const isWebView = /(TikTok|BytedanceWebview|FBAN|FBAV|Instagram)/i.test(userAgent);
             
-            const guideScreen = document.getElementById('tiktok-guide');
-            const redirectScreen = document.getElementById('redirect-screen');
+            const capaWebview = document.getElementById('capa-webview');
+            const capaOferta = document.getElementById('capa-oferta');
 
             if (isWebView) {
-                // Si el tráfico está atrapado en la app: Bloqueamos y mostramos la guía animada
-                guideScreen.style.display = 'flex';
-                redirectScreen.style.display = 'none';
+                // ACCIÓN: El usuario está atrapado en TikTok.
+                // RESULTADO: Se enciende la Capa 1. Se oculta la Capa 2.
+                capaWebview.style.display = 'flex';
+                capaOferta.style.display = 'none';
             } else {
-                // Si el tráfico ya está en Chrome/Safari: Iniciamos el funnel corporativo
-                guideScreen.style.display = 'none';
-                redirectScreen.style.display = 'flex';
-
-                // Simulamos un tiempo de carga para generar confianza (2.5 segundos) antes de inyectar el CPA
-                setTimeout(() => {
-                    document.querySelector('.status-text').innerText = "Conectando de forma segura...";
-                    document.querySelector('.status-text').style.color = "#004B93";
-                }, 1200);
-
-                setTimeout(() => {
-                    // Ejecución final: Redirección forzada sin retorno (replace evita que vuelvan atrás fácilmente)
-                    window.location.replace(CPA_LINK);
-                }, 2500);
+                // ACCIÓN: El usuario hizo caso a la guía y abrió en el navegador nativo.
+                // RESULTADO: Se apaga la Capa 1. Se enciende la Capa 2 con el botón de la oferta.
+                capaWebview.style.display = 'none';
+                capaOferta.style.display = 'flex';
             }
         });
     </script>
