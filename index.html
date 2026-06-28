@@ -1,143 +1,225 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Continuar</title>
-  <style>
-    :root{--bg:#0b1220;--card:#111827;--text:#e5e7eb;--muted:#94a3b8;--primary:#22c55e;--secondary:#334155;--accent:#38bdf8}
-    *{box-sizing:border-box}
-    body{
-      margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
-      background:radial-gradient(circle at top,#172554 0,#0b1220 40%,#020617 100%);
-      color:var(--text);font-family:Arial,sans-serif;padding:20px
-    }
-    .box{
-      width:min(100%,460px);background:rgba(17,24,39,.94);border:1px solid rgba(148,163,184,.18);
-      padding:28px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.35);text-align:center
-    }
-    .badge{
-      display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(56,189,248,.12);
-      color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.3px;margin-bottom:12px
-    }
-    h1{margin:0 0 10px;font-size:28px;line-height:1.1}
-    p{margin:0 0 14px;line-height:1.5;color:var(--muted);font-size:15px}
-    .btn{
-      display:block;width:100%;padding:15px 16px;border-radius:14px;text-decoration:none;font-weight:700;
-      margin-top:12px;transition:transform .12s ease, opacity .12s ease
-    }
-    .btn:active{transform:scale(.99)}
-    .primary{background:linear-gradient(90deg,#22c55e,#16a34a);color:#04110a}
-    .secondary{background:var(--secondary);color:#fff;border:1px solid rgba(255,255,255,.05)}
-    .ghost{background:transparent;color:var(--accent);border:1px dashed rgba(56,189,248,.35)}
-    .small{font-size:13px;color:var(--muted);margin-top:16px}
-    .steps{margin:18px 0 0;padding:0;list-style:none;text-align:left}
-    .steps li{
-      display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid rgba(148,163,184,.1)
-    }
-    .num{
-      width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
-      background:rgba(56,189,248,.12);color:var(--accent);font-size:12px;font-weight:700;flex:0 0 24px;margin-top:1px
-    }
-    .hidden{display:none}
-    .status{margin-top:10px;font-size:13px;color:#cbd5e1}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PepsiCo - Portal de Contrataciones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pepsi-blue: #004B93;
+            --pepsi-red: #C9002B;
+            --white: #FFFFFF;
+            --bg-dark: #121212;
+            --text-dark: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f5;
+            color: var(--text-dark);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Evitar scroll innecesario */
+        }
+
+        /* =========================================
+           ESTADO 1: GUÍA ANTI-TIKTOK (WEBVIEW)
+           ========================================= */
+        #tiktok-guide {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            color: var(--white);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Flecha animada apuntando a los 3 puntos (Arriba a la derecha) */
+        .arrow-pointer {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 3rem;
+            color: var(--pepsi-red);
+            animation: pointTopRight 0.8s infinite alternate ease-in-out;
+            text-shadow: 0 0 15px rgba(201, 0, 43, 0.8);
+        }
+
+        @keyframes pointTopRight {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(15px, -15px) scale(1.2); }
+        }
+
+        .guide-content h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--pepsi-blue);
+            background: var(--white);
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .guide-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .step-box {
+            background: #222;
+            border: 2px solid var(--pepsi-blue);
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0, 75, 147, 0.5);
+        }
+
+        .dot-icon {
+            display: inline-block;
+            letter-spacing: 2px;
+            font-weight: 900;
+            color: var(--white);
+            background: #444;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* =========================================
+           ESTADO 2: REDIRECCIÓN CPA (NAVEGADOR NATIVO)
+           ========================================= */
+        #redirect-screen {
+            display: none; /* Oculto por defecto */
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .corporate-logo {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--pepsi-blue);
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+        }
+
+        .corporate-logo span {
+            color: var(--pepsi-red);
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e2e8f0;
+            border-top-color: var(--pepsi-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-top: 10px;
+        }
+
+        .sub-text {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
-  <div class="box">
-    <div class="badge">ACCESO SEGURO</div>
-    <h1>Abre la oferta fuera de TikTok</h1>
-    <p id="msg">Estamos preparando la apertura en tu navegador predeterminado.</p>
 
-    <a id="openBtn" class="btn primary" href="https://tinyurl.com/yr9denz7" rel="noopener noreferrer">
-      Abrir ahora
-    </a>
-    <a id="copyBtn" class="btn ghost hidden" href="#">Copiar enlace</a>
-    <a id="manualBtn" class="btn secondary hidden" href="https://TU-DOMINIO.com/oferta" target="_blank" rel="noopener noreferrer">
-      Abrir manualmente en navegador
-    </a>
+    <div id="tiktok-guide">
+        <div class="arrow-pointer">↗</div>
+        <div class="guide-content">
+            <h1>⚠️ Acción Requerida</h1>
+            <p>Para aplicar a las vacantes de forma segura, debes salir de TikTok.</p>
+            <div class="step-box">
+                Paso 1: Toca los <span class="dot-icon">...</span> arriba a la derecha.<br><br>
+                Paso 2: Selecciona <b>"Abrir en el navegador"</b> o <b>"Abrir en Chrome/Safari"</b>.
+            </div>
+        </div>
+    </div>
 
-    <div class="status" id="status"></div>
+    <div id="redirect-screen">
+        <div class="corporate-logo">PEPSI<span>CO</span></div>
+        <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Portal de Empleos 2026</h2>
+        <div class="loader"></div>
+        <div class="status-text">Verificando vacantes disponibles en tu zona...</div>
+        <div class="sub-text">Serás redirigido a la plataforma oficial en unos segundos.</div>
+    </div>
 
-    <ul class="steps hidden" id="steps">
-      <li><span class="num">1</span><span>Toca <b>Abrir ahora</b>.</span></li>
-      <li><span class="num">2</span><span>Si TikTok no sale, usa <b>Copiar enlace</b>.</span></li>
-      <li><span class="num">3</span><span>Pega el enlace en Safari, Chrome o tu navegador por defecto.</span></li>
-    </ul>
+    <script>
+        // ==========================================
+        // CONFIGURACIÓN DEL COMANDO
+        // ==========================================
+        // REEMPLAZA ESTA URL CON TU ENLACE DIRECTO DE CPA (Zeydoo, Monetag, etc.)
+        const CPA_LINK = "https://tu-enlace-cpa-aqui.com"; 
+        
+        // ==========================================
+        // LÓGICA DE DETECCIÓN Y EJECUCIÓN
+        // ==========================================
+        document.addEventListener("DOMContentLoaded", () => {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // Detección de navegadores internos de redes sociales (Enfocado en TikTok, pero cubre FB/IG)
+            const isWebView = /(TikTok|BytedanceWebview|FBAN|FBAV|Instagram)/i.test(userAgent);
+            
+            const guideScreen = document.getElementById('tiktok-guide');
+            const redirectScreen = document.getElementById('redirect-screen');
 
-    <div class="small">Si el navegador interno bloquea la redirección, aparecerá una alternativa automática.</div>
-  </div>
+            if (isWebView) {
+                // Si el tráfico está atrapado en la app: Bloqueamos y mostramos la guía animada
+                guideScreen.style.display = 'flex';
+                redirectScreen.style.display = 'none';
+            } else {
+                // Si el tráfico ya está en Chrome/Safari: Iniciamos el funnel corporativo
+                guideScreen.style.display = 'none';
+                redirectScreen.style.display = 'flex';
 
-  <script>
-    const destination = "https://TU-DOMINIO.com/oferta";
-    const ua = navigator.userAgent || "";
-    const isTikTok = /TikTok|musical_ly|Bytedance/i.test(ua);
-    const isIOS = /iPhone|iPad|iPod/i.test(ua);
-    const isAndroid = /Android/i.test(ua);
+                // Simulamos un tiempo de carga para generar confianza (2.5 segundos) antes de inyectar el CPA
+                setTimeout(() => {
+                    document.querySelector('.status-text').innerText = "Conectando de forma segura...";
+                    document.querySelector('.status-text').style.color = "#004B93";
+                }, 1200);
 
-    const msg = document.getElementById("msg");
-    const status = document.getElementById("status");
-    const openBtn = document.getElementById("openBtn");
-    const copyBtn = document.getElementById("copyBtn");
-    const manualBtn = document.getElementById("manualBtn");
-    const steps = document.getElementById("steps");
-
-    function showFallback(text) {
-      msg.textContent = text;
-      status.textContent = isIOS
-        ? "En iPhone, abre en Safari para mejor compatibilidad."
-        : isAndroid
-          ? "En Android, abre en Chrome o en tu navegador predeterminado."
-          : "Abre el enlace en tu navegador habitual.";
-      copyBtn.classList.remove("hidden");
-      manualBtn.classList.remove("hidden");
-      steps.classList.remove("hidden");
-    }
-
-    function attemptOpen() {
-      const a = document.createElement("a");
-      a.href = destination;
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      setTimeout(() => {
-        if (document.visibilityState === "visible") {
-          showFallback(isTikTok
-            ? "TikTok puede impedir la apertura externa. Usa una de las opciones de abajo."
-            : "No se pudo confirmar la apertura. Usa una de las opciones de abajo.");
-        }
-      }, 1200);
-    }
-
-    if (isTikTok) {
-      msg.textContent = "Detectamos el navegador interno de TikTok. Intentaremos abrir afuera.";
-      steps.classList.remove("hidden");
-    } else {
-      status.textContent = "Navegador normal detectado. La apertura debería ser directa.";
-    }
-
-    openBtn.addEventListener("click", function(e){
-      e.preventDefault();
-      attemptOpen();
-    });
-
-    copyBtn.addEventListener("click", async function(e){
-      e.preventDefault();
-      try {
-        await navigator.clipboard.writeText(destination);
-        copyBtn.textContent = "Enlace copiado";
-        status.textContent = "Ahora pégalo en el navegador externo.";
-      } catch (err) {
-        status.textContent = destination;
-      }
-    });
-
-    manualBtn.addEventListener("click", function(){
-      status.textContent = "Se abrirá en una pestaña nueva si TikTok lo permite.";
-    });
-  </script>
+                setTimeout(() => {
+                    // Ejecución final: Redirección forzada sin retorno (replace evita que vuelvan atrás fácilmente)
+                    window.location.replace(CPA_LINK);
+                }, 2500);
+            }
+        });
+    </script>
 </body>
 </html>
